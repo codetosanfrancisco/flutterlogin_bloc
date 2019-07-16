@@ -5,7 +5,7 @@ import '../blocs/provider.dart';
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final bloc = Provoder.of(context);
+    final bloc = Provider.of(context);
     // TODO: implement build
     return Container(
       margin: EdgeInsets.all(20.0),
@@ -50,11 +50,15 @@ class LoginScreen extends StatelessWidget {
         });
   }
 
-  Widget submitButton() {
-    return RaisedButton(
-      child: Text("Submit"),
-      onPressed: () {},
-      color: Colors.blue,
-    );
+  Widget submitButton(Bloc bloc) {
+    return StreamBuilder(
+        stream: bloc.submitValid,
+        builder: (context, snapshot) {
+          return RaisedButton(
+            child: Text("Submit"),
+            onPressed: snapshot.hasData ? bloc.submit : null,
+            color: Colors.blue,
+          );
+        });
   }
 }
